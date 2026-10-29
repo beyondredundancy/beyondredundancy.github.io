@@ -53,3 +53,15 @@ section{scroll-margin-top:1rem}
 table{border-collapse:collapse;width:100%;font-size:1rem;margin:1rem 0}
 th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}
 .sources{font-size:1rem;color:var(--muted)}
+
+/* v2 additions */
+.skip{position:absolute;left:-999px;top:0}
+.skip:focus{left:1rem;top:1rem;background:var(--bg);color:var(--ink);padding:.5rem .8rem;border:2px solid var(--accent);border-radius:6px;z-index:10}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+h3{font-size:1.15rem;margin:1.9rem 0 .4rem}
+.glist{list-style:none;margin:0 0 1rem;padding:0;border-top:1px solid var(--line)}
+.glist li{padding:.9rem 0;border-bottom:1px solid var(--line)}
+.glist a{font-weight:700}
+.glist .d{display:block;color:var(--muted);font-size:1rem;margin-top:.15rem}
+.next{border:1px solid var(--line);border-radius:8px;padding:1rem 1.25rem;margin:2.2rem 0 0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1rem}
+.next p{margin:0}
