@@ -49,7 +49,7 @@
       </fieldset>
       <fieldset>
         <legend>Essential outgoings each month</legend>
-        <p class="hint">Bills you can’t drop. For annual bills, divide the cost by 12.</p>
+        <p class="hint">Bills you can’t drop. Tip: look back through 12 months of bank and card statements so you don’t miss anything, especially annual bills such as car tax, MOT, insurance renewals and your TV licence. For annual bills, divide the cost by 12.</p>
         <div id="essentials"></div>
       </fieldset>
       <fieldset>
@@ -87,10 +87,10 @@
     essentials: [
       ["rent", "Rent or mortgage"], ["ctax", "Council tax"], ["energy", "Energy and water"],
       ["food", "Food and household"], ["travel", "Transport"], ["ins", "Insurance"],
-      ["phone", "Phone and broadband"], ["child", "Childcare"], ["debt", "Debt repayments"],
-      ["oth", "Other essentials"]
+      ["phone", "Phone, broadband and TV packages"], ["tvl", "TV licence (monthly share)"], ["child", "Childcare"], ["debt", "Debt repayments"],
+      ["oth", "Other essentials (for example prescriptions, pet costs, school costs, car tax and MOT, clothing)"]
     ],
-    extras: [["subs", "Subscriptions"], ["fun", "Eating out and entertainment"], ["misc", "Other spending"]],
+    extras: [["subs", "Subscriptions"], ["fun", "Eating out and entertainment"], ["misc", "Other spending (for example gifts, holidays, hobbies)"]],
     cash: [["cashamt", "Cash you can reach"]]
   };
   var fmt = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 });
