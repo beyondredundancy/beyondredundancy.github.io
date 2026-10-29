@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free redundancy budget planner – Redundancy Matters</title>
+<meta name="description" content="A free budget planner for after redundancy. Enter your outgoings, income and cash to see your monthly gap and how many months your cash would cover.">
+<link rel="stylesheet" href="../style.css">
+<style>
+.planner fieldset{border:1px solid var(--line);border-radius:8px;margin:0 0 1.5rem;padding:1rem 1.25rem}
+.planner legend{font-weight:700;padding:0 .4rem}
+.row{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin:.55rem 0}
+.row label{flex:1}
+.row input{width:9rem;font:inherit;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:.45rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);text-align:right}
+.row input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hint{color:var(--muted);font-size:.95rem;margin:.2rem 0 .6rem}
+.result{border-left:4px solid var(--accent);background:var(--panel);border-radius:0 8px 8px 0;padding:1.1rem 1.4rem;margin:0 0 2rem}
+.result p{margin:.45rem 0}
+.big{font-size:1.5rem;font-weight:700}
+@media (max-width:30rem){.row{flex-direction:column;align-items:stretch;gap:.25rem}.row input{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="name" href="../index.html">Redundancy Matters</a>
+    <nav><a href="../index.html#start">Start here</a> &nbsp; <a href="../index.html#guides">Guides</a> &nbsp; <a href="../index.html#about">About</a></nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap guide">
+    <p class="back"><a href="../index.html#guides">&larr; All guides</a></p>
+    <h1>Free redundancy budget planner</h1>
+    <p class="meta">Last checked: 25 October 2026</p>
+
+    <div class="answer">
+      <p><strong>How it works</strong></p>
+      <p>Enter your monthly figures in pounds. The planner shows how much your essential outgoings exceed your income, and how many months your cash would last. Everything is worked out in your browser. Nothing you type is saved or sent anywhere.</p>
+    </div>
+
+    <noscript><p>This planner needs JavaScript switched on to work.</p></noscript>
+
+    <div class="planner" id="planner">
+      <fieldset>
+        <legend>Income you will still have each month</legend>
+        <p class="hint">For example a partner’s pay, benefits or part-time work. Leave it at 0 if you have none.</p>
+        <div id="income"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Essential outgoings each month</legend>
+        <p class="hint">Bills you can’t drop. For annual bills, divide the cost by 12.</p>
+        <div id="essentials"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Other spending each month</legend>
+        <div id="extras"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Cash you can reach</legend>
+        <p class="hint">Money in accounts you can get at without a penalty.</p>
+        <div id="cash"></div>
+      </fieldset>
+    </div>
+
+    <div class="result" aria-live="polite" id="result"></div>
+
+    <p>To think about how many months of cover to aim for, read our guide to <a href="cash-buffer.html">how much cash to keep accessible</a>. If you might claim benefits, see our guide to <a href="benefits.html">benefits while job hunting</a>.</p>
+
+    <aside class="note">
+      <p><strong>Information, not advice.</strong> This planner is a simple tool. It doesn’t include irregular bills, tax, or changes to your income, so treat the result as a starting point.</p>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Official sources: <a href="https://www.gov.uk">GOV.UK</a> and <a href="https://www.moneyhelper.org.uk">MoneyHelper</a>.</p>
+    <p>Redundancy Matters is an independent site and is not affiliated with any bank or government body.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var groups = {
+    income: [["inc", "Income each month"]],
+    essentials: [
+      ["rent", "Rent or mortgage"], ["ctax", "Council tax"], ["energy", "Energy and water"],
+      ["food", "Food and household"], ["travel", "Transport"], ["ins", "Insurance"],
+      ["phone", "Phone and broadband"], ["child", "Childcare"], ["debt", "Debt repayments"],
+      ["oth", "Other essentials"]
+    ],
+    extras: [["subs", "Subscriptions"], ["fun", "Eating out and entertainment"], ["misc", "Other spending"]],
+    cash: [["cash", "Cash you can reach"]]
+  };
+  var fmt = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 });
+
+  Object.keys(groups).forEach(function (g) {
+    var box = document.getElementById(g);
+    groups[g].forEach(function (f) {
+      var row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = '<label for="' + f[0] + '">' + f[1] + '</label>' +
+        '<input id="' + f[0] + '" type="number" inputmode="decimal" min="0" step="any" placeholder="0">';
+      box.appendChild(row);
+    });
+  });
+
+  function val(id) {
+    var v = parseFloat(document.getElementById(id).value);
+    return isFinite(v) && v > 0 ? v : 0;
+  }
+  function sum(g) {
+    return groups[g].reduce(function (t, f) { return t + val(f[0]); }, 0);
+  }
+
+  function calc() {
+    var income = sum("income"), ess = sum("essentials"), extras = sum("extras"), cash = sum("cash");
+    var gapEss = ess - income, gapAll = ess + extras - income;
+    var out = '<p>Essential outgoings: <strong>' + fmt.format(ess) + '</strong> a month. All spending: <strong>' + fmt.format(ess + extras) + '</strong> a month.</p>';
+
+    if (ess === 0) {
+      out += '<p>Enter your essential outgoings to see your result.</p>';
+    } else if (gapEss <= 0) {
+      out += '<p class="big">Your income covers your essentials.</p>';
+    } else {
+      out += '<p>Each month your essentials exceed your income by <strong>' + fmt.format(gapEss) + '</strong>.</p>';
+      if (cash > 0) {
+        out += '<p class="big">About ' + (cash / gapEss).toFixed(1) + ' months of cover</p><p>with essentials only.</p>';
+      } else {
+        out += '<p>Enter the cash you can reach to see how many months it would cover.</p>';
+      }
+      if (cash > 0 && extras > 0 && gapAll > 0) {
+        out += '<p>If you keep all your current spending: about <strong>' + (cash / gapAll).toFixed(1) + ' months</strong>.</p>';
+      }
+    }
+    document.getElementById("result").innerHTML = out;
+  }
+
+  document.getElementById("planner").addEventListener("input", calc);
+  calc();
+})();
+</script>
+</body>
+</html>
