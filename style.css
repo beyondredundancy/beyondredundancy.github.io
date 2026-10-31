@@ -65,3 +65,7 @@ h3{font-size:1.15rem;margin:1.9rem 0 .4rem}
 .glist .d{display:block;color:var(--muted);font-size:1rem;margin-top:.15rem}
 .next{border:1px solid var(--line);border-radius:8px;padding:1rem 1.25rem;margin:2.2rem 0 0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1rem}
 .next p{margin:0}
+
+/* v3: logo */
+.name img{display:block;width:min(300px,100%);height:auto}
+.name{line-height:0}
