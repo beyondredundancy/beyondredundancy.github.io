@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://redundancy-matters.github.io/sitemap.xml
+Sitemap: https://beyondredundancy.github.io/sitemap.xml
