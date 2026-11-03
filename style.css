@@ -80,3 +80,8 @@ h3{font-size:1.15rem;margin:1.9rem 0 .4rem}
 .cform button{margin-top:1.2rem;border:0;cursor:pointer}
 .cform .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 #formmsg{margin-top:1rem;min-height:1.5rem}
+
+/* v5: glossary */
+.gloss dt{font-weight:700;margin-top:1.5rem;scroll-margin-top:1rem}
+.gloss dd{margin:.3rem 0 0}
+.gloss dt:target{color:var(--accent)}
